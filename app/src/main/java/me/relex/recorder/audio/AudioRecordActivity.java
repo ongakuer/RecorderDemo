@@ -1,4 +1,4 @@
-package me.relex.recorder.media;
+package me.relex.recorder.audio;
 
 import android.os.Bundle;
 import android.view.View;
@@ -7,28 +7,28 @@ import java.io.File;
 import java.io.IOException;
 import me.relex.recorder.BaseRecordActivity;
 import me.relex.recorder.R;
+import me.relex.recorder.media.MediaPlayHelper;
+import me.relex.recorder.media.MediaPlayListener;
 import me.relex.recorder.tools.FileUtil;
 import me.relex.recorder.tools.RecordListener;
 
-public class MediaRecordActivity extends BaseRecordActivity
+public class AudioRecordActivity extends BaseRecordActivity
         implements RecordListener, MediaPlayListener {
 
-    private MediaRecordHelper mMediaRecordHelper;
+    private AudioRecordHelper mAudioRecordHelper;
     private MediaPlayHelper mMediaPlayHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_media_record);
+        setContentView(R.layout.activity_audio_record);
         configToolbar();
 
-        mMediaRecordHelper = new MediaRecordHelper();
-        mMediaRecordHelper.setMediaRecordListener(this);
+        mAudioRecordHelper = new AudioRecordHelper();
+        mAudioRecordHelper.setAudioRecordListener(this);
 
         mMediaPlayHelper = new MediaPlayHelper();
         mMediaPlayHelper.setMediaPlayListener(this);
-
-
 
         mStartButton = (Button) findViewById(R.id.start_record);
         mStartButton.setOnClickListener(new View.OnClickListener() {
@@ -40,20 +40,21 @@ public class MediaRecordActivity extends BaseRecordActivity
                 }
 
                 mTempRecordFile = tempFile;
-                mMediaRecordHelper.startRecord(tempFile);
+                mAudioRecordHelper.startRecord(tempFile);
             }
         });
 
         mStopButton = (Button) findViewById(R.id.stop_record);
         mStopButton.setOnClickListener(new View.OnClickListener() {
             @Override public void onClick(View view) {
-                mMediaRecordHelper.stopRecord();
+                mAudioRecordHelper.stopRecord();
             }
         });
 
         mPlayButton = (Button) findViewById(R.id.play_record);
         mPlayButton.setOnClickListener(new View.OnClickListener() {
             @Override public void onClick(View view) {
+
                 if (mTempRecordFile == null || !mTempRecordFile.exists()) {
                     return;
                 }
@@ -96,8 +97,8 @@ public class MediaRecordActivity extends BaseRecordActivity
     private File createTempAudioFile() {
         File tempFile = null;
         try {
-            File fileDir = FileUtil.getAudioCacheDirectory(MediaRecordActivity.this);
-            tempFile = new File(fileDir, System.currentTimeMillis() + ".amr");
+            File fileDir = FileUtil.getAudioCacheDirectory(AudioRecordActivity.this);
+            tempFile = new File(fileDir, System.currentTimeMillis() + ".wav");
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -108,8 +109,7 @@ public class MediaRecordActivity extends BaseRecordActivity
         mHandler.removeCallbacks(mRecordAutoCountRunnable);
         mHandler.removeCallbacks(mPlayAutoCountRunnable);
 
-        mMediaRecordHelper.stopRecord();
-        mMediaPlayHelper.release();
+        mAudioRecordHelper.stopRecord();
         super.onDestroy();
     }
 }

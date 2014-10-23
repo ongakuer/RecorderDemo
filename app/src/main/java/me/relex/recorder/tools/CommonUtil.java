@@ -11,7 +11,6 @@ public class CommonUtil {
                 timeStrFormat(String.valueOf(((milliseconds % (24 * 60 * 60L)) % (60 * 60L)) / 60));
         String second =
                 timeStrFormat(String.valueOf(((milliseconds % (24 * 60 * 60L)) % (60 * 60L)) % 60));
-
         return hours + ":" + minutes + ":" + second;
     }
 

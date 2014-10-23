@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import me.relex.recorder.audio.AudioRecordActivity;
 import me.relex.recorder.media.MediaRecordActivity;
 
 public class HomeActivity extends ActionBarActivity implements View.OnClickListener {
@@ -27,6 +28,8 @@ public class HomeActivity extends ActionBarActivity implements View.OnClickListe
                 startActivity(new Intent(HomeActivity.this, MediaRecordActivity.class));
                 break;
             case R.id.audio_record:
+                startActivity(new Intent(HomeActivity.this, AudioRecordActivity.class));
+
                 break;
             default:
                 break;

@@ -2,14 +2,15 @@ package me.relex.recorder.media;
 
 import android.media.MediaRecorder;
 import java.io.File;
+import me.relex.recorder.tools.RecordListener;
 
-public class MediaRecordHelper {
+public class MediaRecordHelper implements MediaRecorder.OnErrorListener {
 
     private MediaRecorder mRecorder;
 
-    private MediaRecordListener mListener;
+    private RecordListener mListener;
 
-    public void setMediaRecordListener(MediaRecordListener mediaRecordListener) {
+    public void setMediaRecordListener(RecordListener mediaRecordListener) {
         this.mListener = mediaRecordListener;
     }
 
@@ -47,6 +48,10 @@ public class MediaRecordHelper {
                 }
             }
         }
+    }
+
+    @Override public void onError(MediaRecorder mediaRecorder, int i, int i2) {
+        stopRecord();
     }
 }
 
